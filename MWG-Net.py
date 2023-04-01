@@ -1,29 +1,29 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from VGGNET import VGG
+from Model.VGGNET import VGG
 
 import pywt
 import pywt.data
 
-def dwt_init(x):
-     coeffs2 = pywt.dwt2(x, 'haar')
-     x_LL, (x_LH, x_HL, x_HH) = coeffs2
-     return x_LL, x_HL, x_LH, x_HH
-
 # def dwt_init(x):
-#     x01 = x[:, :, 0::2, :] / 2
-#     x02 = x[:, :, 1::2, :] / 2
-#     x1 = x01[:, :, :, 0::2]
-#     x2 = x02[:, :, :, 0::2]
-#     x3 = x01[:, :, :, 1::2]
-#     x4 = x02[:, :, :, 1::2]
-#     x_LL = x1 + x2 + x3 + x4
-#     x_HL = -x1 - x2 + x3 + x4
-#     x_LH = -x1 + x2 - x3 + x4
-#     x_HH = x1 - x2 - x3 + x4
-
+#     coeffs2 = pywt.dwt2(x, 'haar')
+#     x_LL, (x_LH, x_HL, x_HH) = coeffs2
 #     return x_LL, x_HL, x_LH, x_HH
+
+def dwt_init(x):
+    x01 = x[:, :, 0::2, :] / 2
+    x02 = x[:, :, 1::2, :] / 2
+    x1 = x01[:, :, :, 0::2]
+    x2 = x02[:, :, :, 0::2]
+    x3 = x01[:, :, :, 1::2]
+    x4 = x02[:, :, :, 1::2]
+    x_LL = x1 + x2 + x3 + x4
+    x_HL = -x1 - x2 + x3 + x4
+    x_LH = -x1 + x2 - x3 + x4
+    x_HH = x1 - x2 - x3 + x4
+
+    return x_LL, x_HL, x_LH, x_HH
 
 
 class DWT_1(nn.Module):
@@ -113,6 +113,39 @@ class DoubleConv(nn.Module):
 
     def forward(self, input):
         return self.conv(input)
+
+
+
+# class Conv_upsample(nn.Module):
+#     def __init__(self, in_size, out_size, scale_factor):
+#         super(Conv_upsample, self).__init__()
+#         self.dsv = nn.Sequential(nn.Conv2d(in_size, out_size, kernel_size=1),
+#                                  nn.BatchNorm2d(out_size),
+#                                  nn.ReLU(),
+#                                  )
+#         self.scale_factor = scale_factor
+
+#     def forward(self, input):
+#         it = self.dsv(input)
+#         out = F.interpolate(it, scale_factor=self.scale_factor, mode='bilinear')
+
+#         return out
+
+
+
+# class Conv_down(nn.Module):
+#     def __init__(self, in_size, out_size, scale_factor):
+#         super(Conv_down, self).__init__()
+#         self.dsv = nn.Sequential(nn.Conv2d(in_size, out_size, kernel_size=1),
+#                                  nn.BatchNorm2d(out_size),
+#                                  nn.ReLU(),)
+#         self.pool = nn.MaxPool2d(scale_factor)
+
+#     def forward(self, input):
+#         it = self.dsv(input)
+#         out = self.pool(it)
+
+#         return out
 
 
 class DWT_block_1(nn.Module):
@@ -361,6 +394,15 @@ class MWGNet(nn.Module):
         self.conv8 = DoubleConv(64 + 128 + 64, 64)
         self.up9 = nn.ConvTranspose2d(64, 32, 2, stride=2)
         self.conv9 = DoubleConv(32 + 64, 32)
+
+        self.conv10 = nn.Sequential(
+            nn.Conv2d(32, 32, 3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(), )
+
+        self.conv11 = nn.Sequential(
+            nn.Conv2d(32, 1, 1, padding=0),
+            nn.Sigmoid(), )
 
         self.DWT_block_1 = DWT_block_1(3, 16)
         self.DWT_block_2 = DWT_block_2(3, 32)
