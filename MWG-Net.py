@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from Model.VGGNET import VGG
+from VGGNET import VGG
 
 import pywt
 import pywt.data
