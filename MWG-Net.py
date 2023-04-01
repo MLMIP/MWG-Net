@@ -6,24 +6,24 @@ from Model.VGGNET import VGG
 import pywt
 import pywt.data
 
-# def dwt_init(x):
-#     coeffs2 = pywt.dwt2(x, 'haar')
-#     x_LL, (x_LH, x_HL, x_HH) = coeffs2
-#     return x_LL, x_HL, x_LH, x_HH
-
 def dwt_init(x):
-    x01 = x[:, :, 0::2, :] / 2
-    x02 = x[:, :, 1::2, :] / 2
-    x1 = x01[:, :, :, 0::2]
-    x2 = x02[:, :, :, 0::2]
-    x3 = x01[:, :, :, 1::2]
-    x4 = x02[:, :, :, 1::2]
-    x_LL = x1 + x2 + x3 + x4
-    x_HL = -x1 - x2 + x3 + x4
-    x_LH = -x1 + x2 - x3 + x4
-    x_HH = x1 - x2 - x3 + x4
+     coeffs2 = pywt.dwt2(x, 'haar')
+     x_LL, (x_LH, x_HL, x_HH) = coeffs2
+     return x_LL, x_HL, x_LH, x_HH
 
-    return x_LL, x_HL, x_LH, x_HH
+# def dwt_init(x):
+#     x01 = x[:, :, 0::2, :] / 2
+#     x02 = x[:, :, 1::2, :] / 2
+#     x1 = x01[:, :, :, 0::2]
+#     x2 = x02[:, :, :, 0::2]
+#     x3 = x01[:, :, :, 1::2]
+#     x4 = x02[:, :, :, 1::2]
+#     x_LL = x1 + x2 + x3 + x4
+#     x_HL = -x1 - x2 + x3 + x4
+#     x_LH = -x1 + x2 - x3 + x4
+#     x_HH = x1 - x2 - x3 + x4
+
+#     return x_LL, x_HL, x_LH, x_HH
 
 
 class DWT_1(nn.Module):
