@@ -115,39 +115,6 @@ class DoubleConv(nn.Module):
         return self.conv(input)
 
 
-
-# class Conv_upsample(nn.Module):
-#     def __init__(self, in_size, out_size, scale_factor):
-#         super(Conv_upsample, self).__init__()
-#         self.dsv = nn.Sequential(nn.Conv2d(in_size, out_size, kernel_size=1),
-#                                  nn.BatchNorm2d(out_size),
-#                                  nn.ReLU(),
-#                                  )
-#         self.scale_factor = scale_factor
-
-#     def forward(self, input):
-#         it = self.dsv(input)
-#         out = F.interpolate(it, scale_factor=self.scale_factor, mode='bilinear')
-
-#         return out
-
-
-
-# class Conv_down(nn.Module):
-#     def __init__(self, in_size, out_size, scale_factor):
-#         super(Conv_down, self).__init__()
-#         self.dsv = nn.Sequential(nn.Conv2d(in_size, out_size, kernel_size=1),
-#                                  nn.BatchNorm2d(out_size),
-#                                  nn.ReLU(),)
-#         self.pool = nn.MaxPool2d(scale_factor)
-
-#     def forward(self, input):
-#         it = self.dsv(input)
-#         out = self.pool(it)
-
-#         return out
-
-
 class DWT_block_1(nn.Module):
     def __init__(self, in_channels, out_channels):
         super(DWT_block_1, self).__init__()
@@ -394,15 +361,6 @@ class MWGNet(nn.Module):
         self.conv8 = DoubleConv(64 + 128 + 64, 64)
         self.up9 = nn.ConvTranspose2d(64, 32, 2, stride=2)
         self.conv9 = DoubleConv(32 + 64, 32)
-
-        self.conv10 = nn.Sequential(
-            nn.Conv2d(32, 32, 3, padding=1),
-            nn.BatchNorm2d(32),
-            nn.ReLU(), )
-
-        self.conv11 = nn.Sequential(
-            nn.Conv2d(32, 1, 1, padding=0),
-            nn.Sigmoid(), )
 
         self.DWT_block_1 = DWT_block_1(3, 16)
         self.DWT_block_2 = DWT_block_2(3, 32)
