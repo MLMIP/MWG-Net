@@ -6,24 +6,24 @@ from Model.VGGNET import VGG
 import pywt
 import pywt.data
 
-# def dwt_init(x):
-#     coeffs2 = pywt.dwt2(x, 'haar')
-#     x_LL, (x_LH, x_HL, x_HH) = coeffs2
-#     return x_LL, x_HL, x_LH, x_HH
-
 def dwt_init(x):
-    x01 = x[:, :, 0::2, :] / 2
-    x02 = x[:, :, 1::2, :] / 2
-    x1 = x01[:, :, :, 0::2]
-    x2 = x02[:, :, :, 0::2]
-    x3 = x01[:, :, :, 1::2]
-    x4 = x02[:, :, :, 1::2]
-    x_LL = x1 + x2 + x3 + x4
-    x_HL = -x1 - x2 + x3 + x4
-    x_LH = -x1 + x2 - x3 + x4
-    x_HH = x1 - x2 - x3 + x4
+     coeffs2 = pywt.dwt2(x, 'haar')
+     x_LL, (x_LH, x_HL, x_HH) = coeffs2
+     return x_LL, x_HL, x_LH, x_HH
 
-    return x_LL, x_HL, x_LH, x_HH
+# def dwt_init(x):
+#     x01 = x[:, :, 0::2, :] / 2
+#     x02 = x[:, :, 1::2, :] / 2
+#     x1 = x01[:, :, :, 0::2]
+#     x2 = x02[:, :, :, 0::2]
+#     x3 = x01[:, :, :, 1::2]
+#     x4 = x02[:, :, :, 1::2]
+#     x_LL = x1 + x2 + x3 + x4
+#     x_HL = -x1 - x2 + x3 + x4
+#     x_LH = -x1 + x2 - x3 + x4
+#     x_HH = x1 - x2 - x3 + x4
+
+#     return x_LL, x_HL, x_LH, x_HH
 
 
 class DWT_1(nn.Module):
@@ -72,8 +72,6 @@ class DWT_4(nn.Module):
         return x_LL_4, x_HL_4, x_LH_4, x_HH_4
 
 
-
-
 class BasicConv2d(nn.Module):
     def __init__(self, input_channels, output_channels, **kwargs):
         super().__init__()
@@ -113,39 +111,6 @@ class DoubleConv(nn.Module):
 
     def forward(self, input):
         return self.conv(input)
-
-
-
-# class Conv_upsample(nn.Module):
-#     def __init__(self, in_size, out_size, scale_factor):
-#         super(Conv_upsample, self).__init__()
-#         self.dsv = nn.Sequential(nn.Conv2d(in_size, out_size, kernel_size=1),
-#                                  nn.BatchNorm2d(out_size),
-#                                  nn.ReLU(),
-#                                  )
-#         self.scale_factor = scale_factor
-
-#     def forward(self, input):
-#         it = self.dsv(input)
-#         out = F.interpolate(it, scale_factor=self.scale_factor, mode='bilinear')
-
-#         return out
-
-
-
-# class Conv_down(nn.Module):
-#     def __init__(self, in_size, out_size, scale_factor):
-#         super(Conv_down, self).__init__()
-#         self.dsv = nn.Sequential(nn.Conv2d(in_size, out_size, kernel_size=1),
-#                                  nn.BatchNorm2d(out_size),
-#                                  nn.ReLU(),)
-#         self.pool = nn.MaxPool2d(scale_factor)
-
-#     def forward(self, input):
-#         it = self.dsv(input)
-#         out = self.pool(it)
-
-#         return out
 
 
 class DWT_block_1(nn.Module):
