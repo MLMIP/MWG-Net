@@ -241,7 +241,7 @@ class Wave_Edge_Guidance_Module(nn.Module):
         edge_att = self.sigmoid(edge_att)
         encoder_edge_att = torch.mul(encoder_to_edge, edge_att)
 
-        out = torch.cat([encoder_wave_att, encoder_edge_att], dim=1)  # encoder_channel + 8 + 64
+        out = torch.cat([encoder_wave_att, encoder_edge_att], dim=1)  
 
         return out
 
