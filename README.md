@@ -14,17 +14,15 @@ This dataset is public, if you want to use it for related research, please conta
 ## Citation
 If you find this repository helpful, please consider citing:
 ```
-K. Hu, H. Tan, Y. Zhang, W. Huang and X. Gao, "MWG-Net: Multi-scale Wavelet Guidance Network for COVID-19 Lung Infection Segmentation from CT Images," in IEEE Transactions on Instrumentation and Measurement, doi: 10.1109/TIM.2023.3265100.
+Hu K, Tan H, Zhang Y, et al. MWG-Net: Multi-scale Wavelet Guidance Network for COVID-19 Lung Infection Segmentation from CT Images[J]. IEEE Transactions on Instrumentation and Measurement, 2023.
 ```
 or
 ```
-@ARTICLE{10093976,
+@article{hu2023mwg,
+  title={MWG-Net: Multi-scale Wavelet Guidance Network for COVID-19 Lung Infection Segmentation from CT Images},
   author={Hu, Kai and Tan, Hui and Zhang, Yuan and Huang, Wei and Gao, Xieping},
-  journal={IEEE Transactions on Instrumentation and Measurement}, 
-  title={MWG-Net: Multi-scale Wavelet Guidance Network for COVID-19 Lung Infection Segmentation from CT Images}, 
+  journal={IEEE Transactions on Instrumentation and Measurement},
   year={2023},
-  volume={},
-  number={},
-  pages={1-1},
-  doi={10.1109/TIM.2023.3265100}}
+  publisher={IEEE}
+}
 ```
